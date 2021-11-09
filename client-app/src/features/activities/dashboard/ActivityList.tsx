@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import React, { SyntheticEvent, useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Button,
   Item,
@@ -45,10 +46,11 @@ const ActivityList = () => {
               </ItemDescription>
               <ItemExtra>
                 <Button
+                  as={Link}
+                  to={`/activities/${activity.id}`}
                   floated='right'
                   content='View'
                   color='blue'
-                  onClick={() => activityStore.selectActivity(activity.id)}
                 />
                 <Button
                   name={activity.id}

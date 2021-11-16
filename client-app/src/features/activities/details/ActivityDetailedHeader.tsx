@@ -1,5 +1,7 @@
+import { format } from 'date-fns';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Button, Header, Image, Item, Segment } from 'semantic-ui-react';
 import { Activity } from '../../../app/models/activity';
 
@@ -20,7 +22,7 @@ interface Props {
   activity: Activity;
 }
 
-const ActivityDetailedHeader = ({activity}: Props) => {
+const ActivityDetailedHeader = ({ activity }: Props) => {
   return (
     <Segment.Group>
       <Segment basic attached='top' style={{ padding: '0' }}>
@@ -38,7 +40,7 @@ const ActivityDetailedHeader = ({activity}: Props) => {
                   content={activity.title}
                   style={{ color: 'white' }}
                 />
-                <p>{activity.date}</p>
+                <p>{format(activity.date!, 'dd MMM yyyy')}</p>
                 <p>
                   Hosted by <strong>Bob</strong>
                 </p>
@@ -50,7 +52,12 @@ const ActivityDetailedHeader = ({activity}: Props) => {
       <Segment clearing attached='bottom'>
         <Button color='teal'>Join Activity</Button>
         <Button>Cancel attendance</Button>
-        <Button color='orange' floated='right'>
+        <Button
+          as={Link}
+          to={`/manage/${activity.id}`}
+          color='orange'
+          floated='right'
+        >
           Manage Event
         </Button>
       </Segment>
@@ -58,4 +65,4 @@ const ActivityDetailedHeader = ({activity}: Props) => {
   );
 };
 
-export default observer(ActivityDetailedHeader)
+export default observer(ActivityDetailedHeader);

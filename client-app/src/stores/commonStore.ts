@@ -1,15 +1,35 @@
-import { makeAutoObservable } from "mobx";
-import { ServerError } from "../app/models/ServerError";
+import { makeAutoObservable, reaction } from 'mobx';
+import { ServerError } from '../app/models/ServerError';
 
 export default class CommonStore {
   error: ServerError | null = null;
+  token: string | null = window.localStorage.getItem('jwt');
+  appLoaded = false;
 
   constructor() {
-    makeAutoObservable(this)
+    makeAutoObservable(this);
+
+    reaction(
+      () => this.token,
+      (token) => {
+        if (token) {
+          window.localStorage.setItem('jwt', token);
+        } else {
+          window.localStorage.removeItem('jwt');
+        }
+      }
+    );
   }
 
   serServerError = (error: ServerError) => {
-    this.error = error
-  }
+    this.error = error;
+  };
 
+  setToken = (token: string | null) => {
+    this.token = token;
+  };
+
+  setAppLoaded = () => {
+    this.appLoaded = true;
+  };
 }
